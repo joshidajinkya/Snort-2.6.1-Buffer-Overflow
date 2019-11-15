@@ -1,9 +1,15 @@
 For the valid DCE/RPC packet writeX_len is the size of 
 WriteAndX header.
 
+
+
+if writeX_len very big ->overflow
+
 RSW(writeX)=PSW(writeX)
 RSW(smb_data) = PSW(dce_stub_data)
 
+
+dce_stub_data -> pointer to DCE/RPC header starting afetr WriteAndX header.
 
 
 ------------------------------------------------------------------------------------------------------------------------

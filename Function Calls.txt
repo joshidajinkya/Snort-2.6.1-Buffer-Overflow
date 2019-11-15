@@ -1,0 +1,31 @@
+1.To know how to construct a WriteAndX packet that will 
+trigger SMB_Fragmentation, conditions :
+
+	a. sizeof(WriteAndX header) > writeX->dataOffset < total_size 
+
+	b. _dcerpc->smb_state should = 'STATE_GOT_NTCREATE'
+
+	c. for b to be true _dcerpc->smb_state = 'STATE_GOT_TREE_CONNECT'
+
+b happens in ProcessSMBNTCreate()
+
+c happens in ProcessSMBTreeConnXReq()
+
+for c to be true _dcerpc->smb_state='STATE_START'
+which happens in DCERPC_Setup() in snort_dcerpc.c
+
+
+{ProcessSMBTreeConnXReq() -> ProcessSMBNTCreate() -> ProcessSMBWriteX()}
+
+
+Final flow:
+
+-> DCERPCDecode() -> DCERPC_AutoDetect() -> 
+{ProcessRawSMB() -> ProcessNextSMBCommand() -> 
+ProcessSMBTreeConnXReq() -> ProcessSMBNTCeate() -> 
+ProcessSMBWriteX()}
+
+{functions processing SMB packet}
+
+
+
